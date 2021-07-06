@@ -83,7 +83,20 @@ func TestGetAuditPolicy(t *testing.T) {
 			},
 			goldenFile: "oauth.yaml",
 		},
-		// TODO: add test with multiple customRules
+		{
+			name: "multipleCustomRules",
+			config: configv1.Audit{
+				Profile: "None",
+				CustomRules: []configv1.AuditCustomRule{
+					{
+						Group: 	"user:added",
+						Group:   "system:authenticated:oauth",
+						Profile: "WriteRequestBodies",
+					},
+				},
+			},
+			goldenFile: "oauth.yaml",
+		},
 	}
 	for _, scenario := range scenarios {
 		t.Run(scenario.name, func(t *testing.T) {
