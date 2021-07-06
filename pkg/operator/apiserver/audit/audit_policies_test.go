@@ -89,9 +89,11 @@ func TestGetAuditPolicy(t *testing.T) {
 				Profile: "None",
 				CustomRules: []configv1.AuditCustomRule{
 					{
-						Group: 	"user:added",
 						Group:   "system:authenticated:oauth",
 						Profile: "WriteRequestBodies",
+
+						Group: 	"user:added",
+						Profile: "AllRequestBodies",
 					},
 				},
 			},
