@@ -139,3 +139,19 @@ func TestNoUserGroups(t *testing.T) {
 		}
 	}
 }
+
+func TestNoProfile(t *testing.T) {
+	profileSet := configv1.Audit{Profile: "" }
+			if len(profileSet) > 0 {
+			// checks the Profile is value in enum
+				t.Error("Please enter a valid Audit Profile")
+			}
+		}
+
+func TestNoCustomRules(t *testing.T) {
+	customRulesSet := configv1.AuditCustomRule{Profile: "", Group: ""}
+	if len(customRulesSet) > 0 {
+		// checks the Profile is value in enum
+		t.Error("Please enter valid CustomRules")
+	}
+}
