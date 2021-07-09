@@ -99,6 +99,27 @@ func TestGetAuditPolicy(t *testing.T) {
 			},
 			goldenFile: "oauth.yaml",
 		},
+		{
+			name: "unknownProfile",
+			config: configv1.Audit{
+				Profile: "InvalidString",
+
+			},
+			goldenFile: "oauth.yaml",
+		},
+		{
+			name: "unknownCustomRules",
+			config: configv1.Audit{
+				Profile: "None",
+				CustomRules: []configv1.AuditCustomRule{
+					{
+						Group:   "InvalidGroup",
+						Profile: "InvalidProfile",
+					},
+				},
+			},
+			goldenFile: "oauth.yaml",
+		},
 	}
 	for _, scenario := range scenarios {
 		t.Run(scenario.name, func(t *testing.T) {
@@ -140,7 +161,7 @@ func TestNoUserGroups(t *testing.T) {
 	}
 }
 
-func TestNoProfile(t *testing.T) {
+/*func TestNoProfile(t *testing.T) {
 	profileSet := configv1.Audit{Profile: "" }
 			if len(profileSet) > 0 {
 			// checks the Profile is value in enum
@@ -154,4 +175,4 @@ func TestNoCustomRules(t *testing.T) {
 		// checks the Profile is value in enum
 		t.Error("Please enter valid CustomRules")
 	}
-}
+}*/
