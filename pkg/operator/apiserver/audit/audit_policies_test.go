@@ -108,7 +108,7 @@ func TestGetAuditPolicy(t *testing.T) {
 			goldenFile: "oauth.yaml",
 		},
 		{
-			name: "unknownCustomRules",
+			name: "unknownCustomRulesProfile",
 			config: configv1.Audit{
 				Profile: "None",
 				CustomRules: []configv1.AuditCustomRule{
