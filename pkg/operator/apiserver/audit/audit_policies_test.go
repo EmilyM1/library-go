@@ -135,19 +135,9 @@ func TestGetAuditPolicy(t *testing.T) {
 		t.Run(scenario.name, func(t *testing.T) {
 			// act
 			policy, err := GetAuditPolicy(scenario.config)
-			switch errhandling{
-			case errorExpected:
-				 scenerio.errContains ==  unknown audit profile "InvalidProfile" in customRules for group "InvalidGroup"
-
-			}
-			//if err // test expects error, should match errors returned
-			//use error contained when it expects an error not empty
-			if err != nil { // if test has no error
+			if err != nil {
 				t.Fatal(err)
-				// if tests expects error, make sure error if expected
-
 			}
-			 }  //end switch
 
 			// validate
 			if len(scenario.goldenFile) > 0 {
