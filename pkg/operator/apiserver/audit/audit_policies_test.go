@@ -41,6 +41,7 @@ func TestGetAuditPolicy(t *testing.T) {
 		name       string
 		goldenFile string
 		config     configv1.Audit
+		errContains string
 	}{
 		{
 			name: "Default",
@@ -48,6 +49,7 @@ func TestGetAuditPolicy(t *testing.T) {
 				Profile: "Default",
 			},
 			goldenFile: "default.yaml",
+			errContains: "",
 		},
 		{
 			name: "WriteRequestBodies",
@@ -91,13 +93,14 @@ func TestGetAuditPolicy(t *testing.T) {
 					{
 						Group:   "system:authenticated:oauth",
 						Profile: "WriteRequestBodies",
-
-						Group: 	"user:added",
+					},
+					{
+						Group: 	"system:authenticated",
 						Profile: "AllRequestBodies",
 					},
 				},
 			},
-			goldenFile: "oauth.yaml",
+			goldenFile: "multipleCr.yaml",
 		},
 		{
 			name: "unknownProfile",
@@ -106,6 +109,7 @@ func TestGetAuditPolicy(t *testing.T) {
 
 			},
 			goldenFile: "oauth.yaml",
+			errContains: "unknown audit profile \"InvalidString\"",
 		},
 		{
 			name: "unknownCustomRulesProfile",
@@ -125,8 +129,12 @@ func TestGetAuditPolicy(t *testing.T) {
 		t.Run(scenario.name, func(t *testing.T) {
 			// act
 			policy, err := GetAuditPolicy(scenario.config)
-			if err != nil {
+			//if err // test expects error, should match errors returned
+			//use error contained when it expects an error not empty
+			if err != nil { // if test has no error
 				t.Fatal(err)
+				// if tests expects error, make sure error if expected
+
 			}
 
 			// validate
