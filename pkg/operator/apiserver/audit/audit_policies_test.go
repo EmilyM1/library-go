@@ -57,6 +57,7 @@ func TestGetAuditPolicy(t *testing.T) {
 				Profile: "WriteRequestBodies",
 			},
 			goldenFile: "writerequestbodies.yaml",
+			errContains: "",
 		},
 		{
 			name: "AllRequestBodies",
@@ -64,6 +65,7 @@ func TestGetAuditPolicy(t *testing.T) {
 				Profile: "AllRequestBodies",
 			},
 			goldenFile: "allrequestbodies.yaml",
+			errContains: "",
 		},
 		{
 			name: "None",
@@ -71,6 +73,7 @@ func TestGetAuditPolicy(t *testing.T) {
 				Profile: "None",
 			},
 			goldenFile: "none.yaml",
+			errContains: "",
 		},
 		{
 			name: "AuthenticatedOauth only",
@@ -84,6 +87,7 @@ func TestGetAuditPolicy(t *testing.T) {
 				},
 			},
 			goldenFile: "oauth.yaml",
+			errContains: "",
 		},
 		{
 			name: "multipleCustomRules",
@@ -101,6 +105,7 @@ func TestGetAuditPolicy(t *testing.T) {
 				},
 			},
 			goldenFile: "multipleCr.yaml",
+			errContains: "",
 		},
 		{
 			name: "unknownProfile",
@@ -123,12 +128,18 @@ func TestGetAuditPolicy(t *testing.T) {
 				},
 			},
 			goldenFile: "oauth.yaml",
+			errContains: "unknown audit profile \"InvalidProfile\" in customRules for group \"InvalidGroup\"",
 		},
 	}
 	for _, scenario := range scenarios {
 		t.Run(scenario.name, func(t *testing.T) {
 			// act
 			policy, err := GetAuditPolicy(scenario.config)
+			switch errhandling{
+			case errorExpected:
+				 scenerio.errContains ==  unknown audit profile "InvalidProfile" in customRules for group "InvalidGroup"
+
+			}
 			//if err // test expects error, should match errors returned
 			//use error contained when it expects an error not empty
 			if err != nil { // if test has no error
@@ -136,6 +147,7 @@ func TestGetAuditPolicy(t *testing.T) {
 				// if tests expects error, make sure error if expected
 
 			}
+			 }  //end switch
 
 			// validate
 			if len(scenario.goldenFile) > 0 {
